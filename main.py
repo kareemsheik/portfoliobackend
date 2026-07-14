@@ -6,7 +6,7 @@ users=[{"id":1,"name":"John Doe","email":"john@example.com","age":28,"city":"Hyd
 
 @app.get("/")
 async def read_root():
-    return {"message": "Welcome to my portfoliooo!"}
+    return {"message": "Welcome to my portfolio!"}
 
 
 @app.get("/dataa")

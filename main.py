@@ -18,14 +18,18 @@ async def read_data():
 @app.post("/send-email")
 async def send_email(name:str, mailfrom:str,subject:str,message:str, mailto:str="kareemsheik133@gmail.com"):
     try:
-        email = resend.Email(
-            from_email=mailfrom,
-            to=[mailto],
-            subject=subject,
-            text=message
-        )
-        response = email.send()
-        return {"message": "Email sent successfully", "response": response}
+        res = resend.Emails.send({
+            "from": "onboarding@resend.dev",   # or your verified email
+            "to": [mailto],
+            "subject": subject,
+            "text": f"Name: {name}\nEmail: {mailfrom}\n\n{message}",
+            "reply_to": mailfrom
+        })
+
+        return {
+            "message": "Email sent successfully",
+            "response": res
+        }
     except Exception as e:
         return {"error": str(e)}
      

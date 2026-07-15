@@ -20,7 +20,7 @@ async def read_data():
 async def send_email(name:str, mailfrom:str,subject:str,message:str, mailto:str="kareemsheik133@gmail.com"):
     try:
         res = resend.Emails.send({
-            "from": "onboarding@resend.dev",   # or your verified email
+            "from": mailfrom,   # or your verified email
             "to": [mailto],
             "subject": subject,
             "text": f"Name: {name}\nEmail: {mailfrom}\n\n{message}",

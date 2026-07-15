@@ -1,11 +1,14 @@
 from fastapi import FastAPI
+from dotenv import load_dotenv
 import resend
 import os
+load_dotenv()
 app = FastAPI()
 
 users=[{"id":1,"name":"John vesli","email":"john@example.com","age":28,"city":"Hyderabad"},{"id":2,"name":"Alice smith","email":"alice@example.com","age":25,"city":"Bangalore"},{"id":3,"name":"David Lee","email":"david@example.com","age":31,"city":"Chennai"},{"id":4,"name":"Sarah Johnson","email":"sarah@example.com","age":29,"city":"Mumbai"}]
 
-resend.api_key = os.environ.get("RESEND_API_KEY")
+resend.api_key = os.getenv("RESEND_API_KEY")
+print("Resend API Key:", resend.api_key)  
 @app.get("/")
 async def read_root():
     return {"message": "Welcome to my portfolio!"}

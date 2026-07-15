@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import resend
 import os
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 app = FastAPI()
 
 app.add_middleware(
@@ -11,6 +12,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class EmailRequest(BaseModel):
+    name:str
+    mailfrom:str
+    subject:str
+    message:str
 
 users=[{"id":1,"name":"John vesli","email":"john@example.com","age":28,"city":"Hyderabad"},{"id":2,"name":"Alice smith","email":"alice@example.com","age":25,"city":"Bangalore"},{"id":3,"name":"David Lee","email":"david@example.com","age":31,"city":"Chennai"},{"id":4,"name":"Sarah Johnson","email":"sarah@example.com","age":29,"city":"Mumbai"}]
 
@@ -27,14 +34,14 @@ async def read_data():
     return users
 
 @app.post("/send-email")
-async def send_email(name:str, mailfrom:str,subject:str,message:str, mailto:str="kareemsheik133@gmail.com"):
+async def send_email(data: EmailRequest):
     try:
         res = resend.Emails.send({
             "from": "onboarding@resend.dev",   # or your verified email
-            "to": [mailto],
-            "subject": subject,
-            "text": f"Name: {name}\nEmail: {mailfrom}\n\n{message}",
-            "reply_to": mailfrom
+            "to": ["kareemsheik133@gmail.com"],
+            "subject": data.subject,
+            "text": f"Name: {data.name}\nEmail: {data.mailfrom}\n\n{data.message}",
+            "reply_to": data.mailfrom
         })
 
         return {

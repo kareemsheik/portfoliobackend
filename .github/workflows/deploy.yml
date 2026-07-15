@@ -59,5 +59,6 @@ jobs:
             docker run -d \
               --name portfolio-backend \
               -p 8000:8000 \
+              -e RESEND_API_KEY=${{ secrets.RESEND_API_KEY }} \
               --restart unless-stopped \
               ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
